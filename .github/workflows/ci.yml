@@ -6,21 +6,34 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
+
     - name: Checkout
       uses: actions/checkout@v2
       with:
         submodules: 'recursive'
+
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.6.3'
         arch: 'win32_mingw49'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
-    - uses: actions/setup-java@v1.4.2
+
+    - name: Install Java 1.8
+      uses: actions/setup-java@v1.4.2
       with:
         java-version: '1.8'
+
     - name: Create directories for build and installation environments
-      run: cmake -E make_directory ${{runner.workspace}}/build ${{runner.workspace}}/install
+      run: cmake -E make_directory ${{ runner.workspace }}/build ${{ runner.workspace }}/install
+
     - name: Configure CMake
-      working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake $GITHUB_WORKSPACE -DSOURCE_DIR=${{ runner.workspace }} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install
