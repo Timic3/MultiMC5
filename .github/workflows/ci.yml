@@ -11,7 +11,7 @@ jobs:
       id: cache-qt
       uses: actions/cache@v1
       with:
-        path: ../Qt
+        path: Qt
         key: ${{ runner.os }}-QtCache
 
     - name: Install Qt
@@ -25,6 +25,10 @@ jobs:
       uses: actions/setup-java@v1.4.2
       with:
         java-version: '1.8'
+    
+    - name: Install Zlib
+      shell: cmd
+      run: powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,4 +40,4 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{ runner.workspace }}/build
-      run: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install ../MultiMC5
+      run: cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install ../MultiMC5
