@@ -36,4 +36,4 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{ runner.workspace }}/build
-      run: cmake $GITHUB_WORKSPACE -DSOURCE_DIR=${{ runner.workspace }} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install
+      run: cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install ..
