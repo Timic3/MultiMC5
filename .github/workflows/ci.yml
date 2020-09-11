@@ -19,4 +19,8 @@ jobs:
     - uses: actions/setup-java@v1.4.2
       with:
         java-version: '1.8'
-    - run: cmake
+    - name: Create directories for build and installation environments
+      run: cmake -E make_directory ${{runner.workspace}}/build ${{runner.workspace}}/install
+    - name: Configure CMake
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install
