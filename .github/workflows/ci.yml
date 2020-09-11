@@ -41,3 +41,7 @@ jobs:
     - name: Configure CMake
       working-directory: ${{ runner.workspace }}/build
       run: cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install ../MultiMC5
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build
+      run: mingw32-make -j2
